@@ -1,0 +1,123 @@
+import random
+animal_data = {
+    "ants": {"count": 0, "food": 0, "points": 0},
+    "rabbits": {"count": 0, "food": 0, "points": 0},
+    "birds": {"count": 0, "food": 0, "points": 0},
+    "vultures": {"count": 0, "food": 0, "points": 0},
+    "tigers": {"count": 0, "food": 0, "points": 0},
+    "grass": {"count": 0, "food": 0, "points": 0},
+    "stones": {"count": 0, "food": 0, "points": 0}
+}
+rows, cols = (10, 10)
+arr = [['E' for i in range(cols)] for j in range(rows)]
+
+animals = ['ants', 'birds', 'rabbits', 'vultures', 'tigers', 'grass', 'stones']
+max_animals = 14
+num_animals = {}
+for animal in animals:
+    num_animals[animal] = random.randint(0, max_animals)
+    print(f"{animal}: {num_animals[animal]}")
+    
+animal_symbol = {'ants': 'A', 'birds': 'B', 'rabbits': 'R', 'vultures': 'V', 'tigers':'T', 'grass':'G', 'stones':'S'}
+
+
+for animal in animals:
+    symbol = animal_symbol[animal]
+    for i in range(num_animals[animal]):
+        x = random.randint(0,9)
+        y = random.randint(0,9)
+        while arr[x][y] != 'E':
+                x = random.randint(0,9)
+                y = random.randint(0,9)
+        arr[x][y] = symbol
+        
+        animal_data[animal]["count"] += 1
+        
+for row in range(rows):
+    for col in range(cols):
+        print(f'{arr[row][col]}', end='\t')
+    print()
+or animal in animals:
+    direction = random.randint(0, 4)
+    symbol = animal_symbol[animal]
+    for i in range(num_animals[animal]):
+        x = random.randint(0,9)
+        y = random.randint(0,9)
+        if animal == 'grass' or animal == 'stones':
+            arr[x][y] = symbol
+        elif arr[x][y] == 'S':
+            continue
+        else:
+            while arr[x][y] != 'E':
+                x = random.randint(0,9)
+                y = random.randint(0,9)
+            
+            if animal == "grass" or animal == "stones":
+                continue
+            else:
+                direction = random.randint(0,4)
+                if direction == 0:
+                    if x>0 and arr[x-1][y] != 'S':
+                        x-=1
+                        arr[x][y] = symbol
+                elif direction == 1:
+                    if x<9 and arr[x+1][y] != 'S':
+                        x += 1
+                        arr[x][y] = symbol
+                elif direction == 2:
+                    if y<9 and arr[x][y+1] != 'S':
+                        y += 1
+                        arr[x][y] = symbol
+                elif direction == 3:
+                    if y>0 and arr[x][y-1] != 'S':
+                        y -= 1
+                        arr[x][y] = symbol
+                elif direction == 4:
+                    pass
+                print(f"{animal} {direction}")  
+def get_point(animal):
+    if animal in ["ant", "rabbit", "bird"]:
+        return random.randint(0,1)
+    else:
+        return random.randint(0,3)
+    
+for i in range(10):
+    for j in range(10):
+        for animal in animals:
+            if arr[i][j] == animal_symbol[animal]:
+                animal_data[animal]["count"] += 1
+                if animal == "grass":
+                    continue
+                else:
+                    for other_animal in animals:
+                        if arr[i][j] == animal_symbol[other_animal] and animal != other_animal:
+                            if animal == "grass" and arr[x][y] == animal_symbol['rabbit']:
+                                arr[row][col] = animal_symbol['rabbit']
+                                arr[i][j] = "E"
+                                animal_data["rabbit"]["food"] += 1
+                                
+                            else:
+                                animal_point = get_point(animal)
+                                other_point = get_point(other_animal)
+                                if animal_point >= other_point:
+                                    arr[i][j] = animal_symbol[animal]
+                                    animal_data[animal]["points"] += 1
+                                else:
+                                    arr[i][j] = animal_symbol[other_animal]
+                                    if other_animal != "grass":
+                                        print(f'{animal} defeated {other_animal}')
+                                        animal_data[animal]["points"] += 3
+                                if animal != "stones":
+                                    animal_data[animal]["food"] += 1
+
+
+for row in arr:
+    for col in row:
+        if col == "E":
+            print(" ", end=" ")
+        else:
+            print(col, end=" ")
+    print()
+for animal in animals:
+    print(f"{animal} count: {animal_data[animal]['count']}, food: {animal_data[animal]['food']}, points: {animal_data[animal]['points']}")
+            
